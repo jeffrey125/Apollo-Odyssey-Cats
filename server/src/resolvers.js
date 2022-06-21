@@ -3,7 +3,7 @@
 const resolvers = {
   Query: {
     tracksForHome: (_, __, { dataSources }) => {
-      return dataSources.TrackAPI.getTracksForHome();
+      return dataSources.trackAPI.getTracksForHome();
     },
   },
   // The parent params will access the parent return value which is the tracksforHome
