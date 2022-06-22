@@ -30,11 +30,27 @@ const typeDefs = gql`
     length: Int
   }
 
+  "This will return the track response and the track data"
+  type IncrementTrackViewsResponse {
+    "Status of mutation"
+    code: Int!
+    "Indicates if its a success or not"
+    success: Boolean!
+    "UI Message"
+    message: String!
+    "Updated Data"
+    track: Track
+  }
+
   type Query {
     "This will return the list of track"
     tracksForHome: [Track!]!
     "This will return the specific track"
     track(id: ID!): Track
+  }
+
+  type Mutation {
+    incrementTrackViews(id: ID!): IncrementTrackViewsResponse!
   }
 `;
 
