@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link } from '@reach/router';
 import styled from '@emotion/styled';
-import { gql, useMutation } from '@apollo/client';
-
 import { colors, mq } from '../styles';
 import { humanReadableTimeFromSeconds } from '../utils/helpers';
+import { Link } from '@reach/router';
+import { gql, useMutation } from '@apollo/client';
 
-const INCREMENT_TRACK_VIEW = gql`
-  mutation Mutation($incrementTrackViewsId: ID!) {
+/**
+ * Mutation to increment a track's number of views
+ */
+const INCREMENT_TRACK_VIEWS = gql`
+  mutation IncrementTrackViewsMutation($incrementTrackViewsId: ID!) {
     incrementTrackViews(id: $incrementTrackViewsId) {
       code
       success
@@ -25,10 +27,12 @@ const INCREMENT_TRACK_VIEW = gql`
  * for each track populating the tracks grid homepage.
  */
 const TrackCard = ({ track }) => {
-  const { title, thumbnail, author, length, modulesCount, id } = track;
+  const { title, thumbnail, author, durationInSeconds, modulesCount, id } =
+    track;
 
-  const [incrementTrackViews] = useMutation(INCREMENT_TRACK_VIEW, {
+  const [incrementTrackViews] = useMutation(INCREMENT_TRACK_VIEWS, {
     variables: { incrementTrackViewsId: id },
+    // to observe what the mutation response returns
     onCompleted: (data) => {
       console.log(data);
     },
@@ -47,7 +51,8 @@ const TrackCard = ({ track }) => {
             <AuthorAndTrack>
               <AuthorName>{author.name}</AuthorName>
               <TrackLength>
-                {modulesCount} modules - {humanReadableTimeFromSeconds(length)}
+                {modulesCount} modules -{' '}
+                {humanReadableTimeFromSeconds(durationInSeconds)}
               </TrackLength>
             </AuthorAndTrack>
           </CardFooter>
@@ -87,6 +92,7 @@ const CardContainer = styled(Link)({
     backgroundColor: colors.pink.lightest,
   },
   cursor: 'pointer',
+  textDecoration: 'none',
 });
 
 const CardContent = styled.div({
