@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 // Connects to the Apollo server and have a cache system
 const client = new ApolloClient({
-  uri: 'http://localhost:4000',
+  uri: 'https://apollo-odyssey-cats.herokuapp.com/',
   cache: new InMemoryCache(),
 });
 
